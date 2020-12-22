@@ -1,0 +1,41 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: 持续部署并预热
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 检出代码
+        uses: actions/checkout@v2
+
+      - name: 安装依赖
+        run: yarn install
+
+      - name: 构建
+        run: yarn build:test
+
+      - name: 安装 COSCMD ( 腾讯云对象存储命令行工具 )
+        run: sudo pip install coscmd
+
+      - name: 配置 COSCMD
+        run: coscmd config -a ${{secrets.TENCENT_CLOUD_SECRET_ID_OFFCN}} -s ${{secrets.TENCENT_CLOUD_SECRET_KEY_OFFCN}} -b ${{secrets.TENCENT_CLOUD_BUCKET_NAME}} -r ap-beijing
+
+      - name: 拉取测试环境的内容 ( 避免后续的上传操作删除测试环境 )
+        run: coscmd download -r /test dist/test
+
+      - name: 上传到 COS
+        run: coscmd upload -rsf --delete dist/ /
+
+      - name: 安装 TCCLI ( 腾讯云命令行工具 )
+        run: sudo pip install tccli
+
+      - name: 配置 TCCLI
+        run: tccli configure set secretId ${{secrets.TENCENT_CLOUD_SECRET_ID_OFFCN}} secretKey ${{secrets.TENCENT_CLOUD_SECRET_KEY_OFFCN}} region ap-beijing
+
+      - name: 使用 TCCLI 进行目录刷新 ( 资源预热 )
+        run: tccli cdn PurgePathCache --Paths '["https://gaea.jilinoffcn.com/"]' --FlushType delete
