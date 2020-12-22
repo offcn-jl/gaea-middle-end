@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ new-feature ]
+
+jobs:
+  build:
+    name: 持续集成
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 检出代码
+        uses: actions/checkout@v2
+
+      - name: 安装依赖
+        run: yarn install
+
+      - name: 构建
+        run: yarn build:test
+
+      - name: 安装 COSCMD ( 腾讯云对象存储命令行工具 )
+        run: sudo pip install coscmd
+
+      - name: 配置 COSCMD
+        run: coscmd config -a ${{secrets.TENCENT_CLOUD_SECRET_ID_OFFCN}} -s ${{secrets.TENCENT_CLOUD_SECRET_KEY_OFFCN}} -b ${{secrets.TENCENT_CLOUD_BUCKET_NAME}} -r ap-beijing
+
+      - name: 上传到 COS
+        run: coscmd upload -rsf --delete dist/ /test
