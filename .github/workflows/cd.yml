@@ -17,7 +17,7 @@ jobs:
         run: yarn install
 
       - name: 构建
-        run: yarn build:test
+        run: yarn build
 
       - name: 安装 COSCMD ( 腾讯云对象存储命令行工具 )
         run: sudo pip install coscmd
