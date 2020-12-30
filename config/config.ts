@@ -20,7 +20,6 @@ export default defineConfig({
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
-      path: '/',
       component: '../layouts/BlankLayout',
       routes: [
         // 登陆页
@@ -35,9 +34,123 @@ export default defineConfig({
           ],
         },
         {
-          path: '/',
           component: '../layouts/BasicLayout',
-          routes: [],
+          routes: [
+            {
+              path: '/system-manage',
+              name: '系统管理',
+              icon: 'deploymentUnit',
+              authority: [
+                'admin',
+                '/system-manage/config-manage',
+                '/system-manage/user-and-role-manage',
+              ], // 下级菜单权限的集合
+              routes: [
+                {
+                  path: '/system-manage/config-manage',
+                  name: '配置管理',
+                  authority: ['admin', '/system-manage/config-manage'],
+                },
+                {
+                  path: '/system-manage/user-and-role-manage',
+                  name: '用户与角色管理',
+                  authority: ['admin', '/system-manage/user-and-role-manage'],
+                },
+              ],
+            },
+            {
+              path: '/personal-suffix',
+              name: '个人后缀',
+              icon: 'tag',
+              authority: [
+                'admin',
+                '/personal-suffix/crm-organizational-structure-manage',
+                '/personal-suffix/suffix-manage',
+                '/personal-suffix/single-sign-on-module/module-manage',
+                '/personal-suffix/single-sign-on-module/session-manage',
+                '/personal-suffix/advertising-materials-manage',
+                '/personal-suffix/white-book/create-personal-qrcode',
+                '/personal-suffix/white-book/crm-push/task-management',
+                '/personal-suffix/white-book/crm-push/log-management',
+              ],
+              routes: [
+                {
+                  path: '/personal-suffix/crm-organizational-structure-manage',
+                  name: 'CRM 组织架构管理',
+                  authority: ['admin', '/personal-suffix/crm-organizational-structure-manage'],
+                },
+                {
+                  path: '/personal-suffix/suffix-manage',
+                  name: '后缀管理',
+                  authority: ['admin', '/personal-suffix/suffix-manage'],
+                },
+                {
+                  path: '/personal-suffix/single-sign-on-module',
+                  name: '单点登陆模块',
+                  authority: [
+                    'admin',
+                    '/personal-suffix/single-sign-on-module/module-manage',
+                    '/personal-suffix/single-sign-on-module/session-manage',
+                  ],
+                  routes: [
+                    {
+                      path: '/personal-suffix/single-sign-on-module/module-manage',
+                      name: '模块管理',
+                      authority: ['admin', '/personal-suffix/single-sign-on-module/module-manage'],
+                    },
+                    {
+                      path: '/personal-suffix/single-sign-on-module/session-manage',
+                      name: '会话管理',
+                      authority: ['admin', '/personal-suffix/single-sign-on-module/session-manage'],
+                    },
+                  ],
+                },
+                {
+                  path: '/personal-suffix/advertising-materials-manage',
+                  name: '宣传物料管理',
+                  authority: ['admin', '/personal-suffix/advertising-materials-manage'],
+                },
+                {
+                  path: '/personal-suffix/white-book',
+                  name: '白皮书',
+                  authority: [
+                    'admin',
+                    '/personal-suffix/white-book/create-personal-qrcode',
+                    '/personal-suffix/white-book/crm-push/task-management',
+                    '/personal-suffix/white-book/crm-push/log-management',
+                  ],
+                  routes: [
+                    {
+                      path: '/personal-suffix/white-book/create-personal-qrcode',
+                      name: '个人后缀小程序码生成',
+                      authority: ['admin', '/personal-suffix/white-book/create-personal-qrcode'],
+                    },
+                    {
+                      path: '/personal-suffix/white-book/crm-push',
+                      name: ' CRM 推送',
+                      authority: [
+                        'admin',
+                        '/personal-suffix/white-book/crm-push/task-management',
+                        '/personal-suffix/white-book/crm-push/log-management',
+                      ],
+                      routes: [
+                        {
+                          path: '/personal-suffix/white-book/crm-push/task-manage',
+                          name: '任务管理',
+                          authority: ['admin', '/personal-suffix/white-book/crm-push/task-manage'],
+                        },
+                        {
+                          path: '/personal-suffix/white-book/crm-push/log-manage',
+                          name: '日志管理',
+                          authority: ['admin', '/personal-suffix/white-book/crm-push/log-manage'],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       ],
     },
