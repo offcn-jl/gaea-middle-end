@@ -9,6 +9,20 @@ import { stringify } from 'querystring';
 import { notificationDescription } from './request-components';
 import { getDvaApp } from '@@/plugin-dva/exports';
 
+// 分页请求参数的类型
+export type PaginationRequestParams = {
+  pageSize?: number;
+  current?: number;
+  keyword?: string;
+};
+
+// 分页请求响应的类型
+export type PaginationResponseParams = {
+  Message: string;
+  Data: any[];
+  Total: number;
+};
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
