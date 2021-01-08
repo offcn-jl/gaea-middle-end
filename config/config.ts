@@ -43,18 +43,19 @@ export default defineConfig({
               authority: [
                 'admin',
                 '/system-manage/config-manage',
-                '/system-manage/user-and-role-manage',
+                '/system-manage/users-and-roles-manage',
               ], // 下级菜单权限的集合
               routes: [
                 {
                   path: '/system-manage/config-manage',
                   name: '配置管理',
                   authority: ['admin', '/system-manage/config-manage'],
+                  component: 'system-manage/config-manage',
                 },
                 {
-                  path: '/system-manage/user-and-role-manage',
+                  path: '/system-manage/users-and-roles-manage',
                   name: '用户与角色管理',
-                  authority: ['admin', '/system-manage/user-and-role-manage'],
+                  authority: ['admin', '/system-manage/users-and-roles-manage'],
                 },
               ],
             },
