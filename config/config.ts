@@ -43,7 +43,7 @@ export default defineConfig({
               authority: [
                 'admin',
                 '/system-manage/config-manage',
-                '/system-manage/users-and-roles-manage',
+                '/system-manage/roles-and-users-manage',
               ], // 下级菜单权限的集合
               routes: [
                 {
@@ -53,9 +53,10 @@ export default defineConfig({
                   component: 'system-manage/config-manage',
                 },
                 {
-                  path: '/system-manage/users-and-roles-manage',
-                  name: '用户与角色管理',
-                  authority: ['admin', '/system-manage/users-and-roles-manage'],
+                  path: '/system-manage/roles-and-users-manage',
+                  name: '角色与用户管理',
+                  authority: ['admin', '/system-manage/roles-and-users-manage'],
+                  component: 'system-manage/roles-and-users-manage',
                 },
               ],
             },
@@ -128,7 +129,7 @@ export default defineConfig({
                     },
                     {
                       path: '/personal-suffix/white-book/crm-push',
-                      name: ' CRM 推送',
+                      name: 'CRM 推送',
                       authority: [
                         'admin',
                         '/personal-suffix/white-book/crm-push/task-management',
