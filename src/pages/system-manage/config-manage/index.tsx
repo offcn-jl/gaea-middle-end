@@ -42,7 +42,6 @@ const Page: React.FC<Props> = (props) => {
       width: 100,
       align: 'center',
       dataIndex: 'CreatedAt',
-      valueType: 'dateTime',
       render: (_, record) => {
         moment.locale('zh-cn');
         return (
@@ -62,7 +61,7 @@ const Page: React.FC<Props> = (props) => {
     },
     {
       title: '禁用调试模式',
-      width: 100,
+      width: 105,
       align: 'center',
       dataIndex: 'DisableDebug',
       valueEnum: {
@@ -133,6 +132,7 @@ const Page: React.FC<Props> = (props) => {
         actionRef={proTableRef}
         headerTitle="配置记录"
         search={false}
+        bordered
         rowKey="ID"
         columns={columns}
         pagination={{ showQuickJumper: true }}
@@ -148,6 +148,18 @@ const Page: React.FC<Props> = (props) => {
         validateMessages={{
           required: '必填内容',
         }}
+        submitter={
+          formMode !== 'edit'
+            ? {
+                // 在查看配置详情时, 隐藏掉无用的取消按钮
+                resetButtonProps: {
+                  style: {
+                    display: 'none',
+                  },
+                },
+              }
+            : {}
+        }
         modalProps={{
           onCancel: () => setFormVisible(false),
           maskClosable: false,
