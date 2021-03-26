@@ -6,9 +6,7 @@ import type { Config } from './data';
 export async function getPaginationData(params: PaginationRequestParams) {
   return request(
     `/system-manages/config-manages/list/page/${params.current}/limit/${params.pageSize}`,
-    {
-      method: 'GET',
-    },
+    { method: 'GET' },
   );
 }
 
