@@ -167,6 +167,7 @@ export default defineConfig({
     basePath: '/',
   },
   esbuild: {},
+  publicPath: '/release/',
   define: {
     GAEA_API_BASE: 'https://api.offcn.ltd/release/manages', // 接口基本路径
     GAEA_LOCAL_STORAGE_SESSION_KEY: 'gaea-session', // 保存会话 ( Session ) 的本地存储 ( LocalStorage ) 名称 ( Key )
