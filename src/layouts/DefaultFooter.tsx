@@ -7,21 +7,21 @@ export default (
     copyright={`${new Date().getFullYear()} 第三代哈士齐营销平台`}
     links={[
       {
-        key: 'OFFCN · Jilin',
-        title: 'OFFCN · Jilin',
+        key: '中公教育 · 吉林分部',
+        title: '中公教育 · 吉林分部',
         href: 'http://jl.offcn.com/',
         blankTarget: true,
       },
       {
-        key: 'github',
+        key: 'Github',
         title: <GithubOutlined />,
         href: 'https://github.com/offcn-jl',
         blankTarget: true,
       },
       {
-        key: 'GAEA',
-        title: 'GAEA',
-        href: 'https://github.com/offcn-jl/gaea-front-end',
+        key: '吉ICP备2021002246号',
+        title: '吉ICP备2021002246号',
+        href: 'http://beian.miit.gov.cn/',
         blankTarget: true,
       },
     ]}

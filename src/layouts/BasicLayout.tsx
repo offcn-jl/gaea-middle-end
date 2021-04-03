@@ -8,7 +8,7 @@ import type {
   BasicLayoutProps as ProLayoutProps,
   Settings,
 } from '@ant-design/pro-layout';
-import ProLayout from '@ant-design/pro-layout';
+import ProLayout, { PageLoading } from '@ant-design/pro-layout';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { Dispatch } from 'umi';
 import { Link, connect, history } from 'umi';
@@ -30,6 +30,7 @@ export type BasicLayoutProps = {
   settings: Settings;
   dispatch: Dispatch;
   misTokenIsExpired: boolean;
+  authenticationLoading: boolean;
 } & ProLayoutProps;
 
 /**
@@ -53,6 +54,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       pathname: '/',
     },
     misTokenIsExpired,
+    authenticationLoading,
   } = props;
 
   const menuDataRef = useRef<MenuDataItem[]>([]);
@@ -86,6 +88,59 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
       dispatch({ type: 'authentication/check' }); // 重新获取用户信息并校验权限
     }
   };
+
+  const updateMisTokenModal = (
+    <Modal
+      title={
+        <>
+          <SafetyCertificateTwoTone /> 口令码已过期
+        </>
+      }
+      closable={false}
+      destroyOnClose
+      footer={null}
+      visible={misTokenIsExpired}
+    >
+      <Input.Search
+        enterButton={updatingMisToken ? false : '获取口令码'}
+        loading={updatingMisToken}
+        placeholder="请重新输入口令码"
+        allowClear
+        maxLength={32}
+        disabled={updatingMisToken}
+        onChange={async (e) => {
+          if (e.target.value.length === 32) await doUpdateMisToken(e.target.value);
+        }}
+        onSearch={(v, e) => {
+          if (e?.currentTarget.tagName === 'INPUT') return;
+          window.open('http://mis.offcn.com/Tool/kouling/index');
+          message.success('请在新打开的页面中获取口令码');
+        }}
+      />
+    </Modal>
+  );
+
+  // 在页面刷新 ( 大刷 ) 后, 强制在权限信息加载完成、Mis 口令码状态为未过期的情况下, 触发一次 DOM 更新 ( 从 Loading 页面切换到正常页面 ), 以此来解决权限信息没有加载完成或加载失败导致的菜单显示不正确的问题
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  useEffect(() => {
+    // 首次加载状态
+    if (isFirstLoad) {
+      // 判断权限信息加载状态
+      if (authenticationLoading !== undefined && !authenticationLoading && !misTokenIsExpired) {
+        // 权限信息加载完成, 设置首次加载状态为假
+        setIsFirstLoad(false);
+      }
+    }
+  }, [authenticationLoading]);
+  // 首次加载状态, 显示 Loading 组件
+  if (isFirstLoad) {
+    return (
+      <>
+        <PageLoading />
+        {updateMisTokenModal}
+      </>
+    );
+  }
 
   // 返回内容页面
   return (
@@ -127,39 +182,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         <Authorized authority={authorized!.authority}>{children}</Authorized>
       </ProLayout>
       {/* 更新口令码弹窗 */}
-      <Modal
-        title={
-          <>
-            <SafetyCertificateTwoTone /> 口令码已过期
-          </>
-        }
-        closable={false}
-        destroyOnClose
-        footer={null}
-        visible={misTokenIsExpired}
-      >
-        <Input.Search
-          enterButton={updatingMisToken ? false : '获取口令码'}
-          loading={updatingMisToken}
-          placeholder="请重新输入口令码"
-          allowClear
-          maxLength={32}
-          disabled={updatingMisToken}
-          onChange={async (e) => {
-            if (e.target.value.length === 32) await doUpdateMisToken(e.target.value);
-          }}
-          onSearch={(v, e) => {
-            if (e?.currentTarget.tagName === 'INPUT') return;
-            window.open('http://mis.offcn.com/Tool/kouling/index');
-            message.success('请在新打开的页面中获取口令码');
-          }}
-        />
-      </Modal>
+      {updateMisTokenModal}
     </>
   );
 };
 
-export default connect(({ settings, authentication }: ConnectState) => ({
+export default connect(({ settings, authentication, loading }: ConnectState) => ({
   settings,
   misTokenIsExpired: authentication.misTokenIsExpired,
+  authenticationLoading: loading.models.authentication,
 }))(BasicLayout);

@@ -25,11 +25,8 @@ jobs:
       - name: 配置 COSCMD
         run: coscmd config -a ${{secrets.TENCENT_CLOUD_SECRET_ID_OFFCN}} -s ${{secrets.TENCENT_CLOUD_SECRET_KEY_OFFCN}} -b ${{secrets.TENCENT_CLOUD_BUCKET_NAME}} -r ap-beijing
 
-      - name: 拉取测试环境的内容 ( 避免后续的上传操作删除测试环境 )
-        run: coscmd download -r /test dist/test
-
       - name: 上传到 COS
-        run: coscmd upload -rsf --delete dist/ /
+        run: coscmd upload -rsf --delete dist/ /release
 
       - name: 安装 TCCLI ( 腾讯云命令行工具 )
         run: sudo pip install tccli
@@ -38,4 +35,4 @@ jobs:
         run: tccli configure set secretId ${{secrets.TENCENT_CLOUD_SECRET_ID_OFFCN}} secretKey ${{secrets.TENCENT_CLOUD_SECRET_KEY_OFFCN}} region ap-beijing
 
       - name: 使用 TCCLI 进行目录刷新 ( 资源预热 )
-        run: tccli cdn PurgePathCache --Paths '["https://gaea.jilinoffcn.com/"]' --FlushType delete
+        run: tccli cdn PurgePathCache --Paths '["https://gaea.jilinoffcn.com/release/"]' --FlushType delete

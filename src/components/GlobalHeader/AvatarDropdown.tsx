@@ -56,7 +56,14 @@ const UpdatePasswordModalContent: React.FC<{ closeModal: () => void; dispatch?: 
       <Form.Item
         name="newPassword"
         label="新 密 码"
-        rules={[{ required: true, message: '请输入您的新密码!' }]}
+        rules={[
+          { required: true, message: '请输入您的新密码!' },
+          { type: 'string', min: 8, message: '密码长度不足 8 位!' },
+          { pattern: /[0-9]+/, message: '密码中应当包含数字!' },
+          { pattern: /[a-z]+/, message: '密码中应当包含小写字母!' },
+          { pattern: /[A-Z]+/, message: '密码中应当包含大写字母!' },
+          { pattern: /[~!@#$%^&*?_-]+/, message: '密码中应当包含特殊符号，如 ~!@#$%^&*?_- !' },
+        ]}
         hasFeedback
       >
         <Input.Password
@@ -71,6 +78,11 @@ const UpdatePasswordModalContent: React.FC<{ closeModal: () => void; dispatch?: 
         hasFeedback
         rules={[
           { required: true, message: '请再次确认您的新密码!' },
+          { type: 'string', min: 8, message: '密码长度不足 8 位!' },
+          { pattern: /[0-9]+/, message: '密码中应当包含数字!' },
+          { pattern: /[a-z]+/, message: '密码中应当包含小写字母!' },
+          { pattern: /[A-Z]+/, message: '密码中应当包含大写字母!' },
+          { pattern: /[~!@#$%^&*?_-]+/, message: '密码中应当包含特殊符号，如 ~!@#$%^&*?_- !' },
           ({ getFieldValue }) => ({
             validator(rule, value) {
               if (!value || getFieldValue('newPassword') === value) {

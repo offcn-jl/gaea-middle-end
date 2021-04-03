@@ -9,6 +9,20 @@ import { stringify } from 'querystring';
 import { notificationDescription } from './request-components';
 import { getDvaApp } from '@@/plugin-dva/exports';
 
+// 分页请求参数的类型
+export type PaginationRequestParams = {
+  pageSize?: number;
+  current?: number;
+  keyword?: string;
+};
+
+// 分页请求响应的类型
+export type PaginationResponseParams = {
+  Message: string;
+  Data: any[];
+  Total: number;
+};
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -89,11 +103,12 @@ const errorHandler = (error: { response: Response; data: any }): any => {
         type: 'authentication/updateMisTokenIsExpired',
         payload: true,
       }); // 更新口令码过期状态为真
-    } else if (error.data.Message && error.data.Message === 'Mis 口令码无效11') {
+    } else if (error.data.Message && error.data.Message === '没有接口访问权限') {
       // 没有访问权限
       message.error('没有进行此操作的权限');
-      // todo 重定向到根目录
-      // todo 刷新权限状态
+      // 重定向到根目录
+      history.replace({ pathname: '/' });
+      // P.S. 切换路由操作会触发更新用户信息的操作, 所以无需在此处执行更新用户信息与权限集操作
     } else {
       // 其他错误
       const errorText = error.data.Message || codeMessage[response.status] || response.statusText;

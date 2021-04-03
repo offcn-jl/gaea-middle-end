@@ -67,6 +67,7 @@ export type ModelType = {
     login: Effect;
     logout: Effect;
     updatePassword: Effect;
+    encryptPassword: Effect;
   };
   reducers: {
     changeResponseMessage: Reducer<AuthenticationState>;
@@ -207,6 +208,17 @@ const Authentication: ModelType = {
         message.success('修改成功!');
         payload.closeModal(); // 关闭 Modal
       }
+    },
+    *encryptPassword({ payload }, { call }) {
+      // 检查是否存在加密工具 Encrypt
+      if (!Encrypt) {
+        // 不存在，初始化加密工具
+        Encrypt = new JSEncrypt();
+        // 从接口获取 RSA Public Key 并配置到加密工具中
+        Encrypt.setPublicKey(yield call(getRsaPublicKey));
+      }
+      // 返回加密后的密码
+      return Encrypt.encrypt(payload);
     },
   },
 
