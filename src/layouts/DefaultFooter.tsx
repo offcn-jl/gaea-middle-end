@@ -19,8 +19,8 @@ export default (
         blankTarget: true,
       },
       {
-        key: '吉ICP备19002052号',
-        title: '吉ICP备19002052号',
+        key: '吉ICP备2021002246号',
+        title: '吉ICP备2021002246号',
         href: 'http://beian.miit.gov.cn/',
         blankTarget: true,
       },
