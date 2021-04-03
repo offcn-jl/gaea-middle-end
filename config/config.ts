@@ -168,8 +168,8 @@ export default defineConfig({
   },
   esbuild: {},
   define: {
-    GAEA_API_BASE: 'https://api.gaea.jilinoffcn.com/release/manages', // 接口基本路径
+    GAEA_API_BASE: 'https://api.offcn.ltd/release/manages', // 接口基本路径
     GAEA_LOCAL_STORAGE_SESSION_KEY: 'gaea-session', // 保存会话 ( Session ) 的本地存储 ( LocalStorage ) 名称 ( Key )
-    // GAEA_API_BASE: REACT_APP_ENV === "release" ? "https://api.gaea.jilinoffcn.com/release/manages" : REACT_APP_ENV === "test" ? "https://api.gaea.jilinoffcn.com/test/manages" : "http://localhost:8080/test/manages",
+    // GAEA_API_BASE: REACT_APP_ENV === "release" ? "https://api.offcn.ltd/release/manages" : REACT_APP_ENV === "test" ? "https://api.offcn.ltd/test/manages" : "http://localhost:8080/test/manages",
   },
 });
