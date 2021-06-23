@@ -4,12 +4,12 @@ import { DefaultFooter } from '@ant-design/pro-layout';
 
 export default (
   <DefaultFooter
-    copyright={`${new Date().getFullYear()} 第三代哈士齐营销平台`}
+    copyright={`${new Date().getFullYear()} 中公教育 · 吉林`}
     links={[
       {
-        key: '中公教育 · 吉林分部',
-        title: '中公教育 · 吉林分部',
-        href: 'http://jl.offcn.com/',
+        key: '第三代哈士齐营销平台',
+        title: '第三代哈士齐营销平台',
+        href: 'https://github.com/offcn-jl/gaea-middle-end',
         blankTarget: true,
       },
       {
@@ -21,7 +21,7 @@ export default (
       {
         key: '吉ICP备2021002246号',
         title: '吉ICP备2021002246号',
-        href: 'http://beian.miit.gov.cn/',
+        href: 'https://beian.miit.gov.cn/',
         blankTarget: true,
       },
     ]}
