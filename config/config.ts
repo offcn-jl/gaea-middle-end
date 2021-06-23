@@ -152,6 +152,20 @@ export default defineConfig({
                 },
               ],
             },
+            {
+              path: '/tools',
+              name: '工具',
+              icon: 'tool',
+              authority: ['admin', '/tools/url-shortener'],
+              routes: [
+                {
+                  path: '/tools/url-shortener',
+                  name: '短链生成器',
+                  authority: ['admin', '/tools/url-shortener'],
+                  component: 'tools/url-shortener',
+                },
+              ],
+            },
           ],
         },
       ],
