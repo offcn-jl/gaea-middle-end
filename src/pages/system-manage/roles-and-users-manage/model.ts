@@ -165,6 +165,16 @@ const Model: ModelType = {
           },
         ],
       },
+      {
+        title: '工具',
+        key: '/tools',
+        children: [
+          {
+            title: '短链生成器',
+            key: '/tools/url-shortener',
+          },
+        ],
+      },
     ],
     myPermissionTree: [],
     role: {
