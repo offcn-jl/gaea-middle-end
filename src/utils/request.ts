@@ -13,7 +13,6 @@ import { getDvaApp } from '@@/plugin-dva/exports';
 export type PaginationRequestParams = {
   pageSize?: number;
   current?: number;
-  keyword?: string;
 };
 
 // 分页请求响应的类型
