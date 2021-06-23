@@ -84,40 +84,47 @@ const Authentication: ModelType = {
 
   effects: {
     *check(_, { call, put }) {
-      // 检查是否存在会话 UUID
-      const session = JSON.parse(<string>localStorage.getItem(GAEA_LOCAL_STORAGE_SESSION_KEY));
-      if (session) {
-        // 存在
-        // 判断是否配置过期时间并且没有超过过期时间
-        if (session.ExpiredAt && new Date(session.ExpiredAt) < new Date()) {
-          // 超过过期时间, 删除会话记录并阻止跳转
-          localStorage.removeItem(GAEA_LOCAL_STORAGE_SESSION_KEY);
-          // 跳转到登陆页
-          redirectToLogin();
-        } else {
-          // 调用接口获取用户信息
-          const response = yield call(getUserBasicInfo);
-
-          // 判断会话是否有效
-          if (response.Message === 'Success') {
-            // 更新用户信息
-            yield put({ type: 'changeUserInfo', payload: response });
-            // 更新授权状态
-            reloadAuthorized();
-            // 跳转页面
-            redirectToPage();
-          } else if (response.Message !== 'Mis 口令码无效') {
-            // 如果不是口令码失效, 则可以认为是会话失效
-            message.error(response.Message);
-            // 会话无效, 删除会话记录
+      try {
+        // 检查是否存在会话 UUID
+        const session = JSON.parse(<string>localStorage.getItem(GAEA_LOCAL_STORAGE_SESSION_KEY));
+        if (session) {
+          // 存在
+          // 判断是否配置过期时间并且没有超过过期时间
+          if (session.ExpiredAt && new Date(session.ExpiredAt) < new Date()) {
+            // 超过过期时间, 删除会话记录并阻止跳转
             localStorage.removeItem(GAEA_LOCAL_STORAGE_SESSION_KEY);
             // 跳转到登陆页
             redirectToLogin();
+          } else {
+            // 调用接口获取用户信息
+            const response = yield call(getUserBasicInfo);
+
+            // 判断会话是否有效
+            if (response.Message === 'Success') {
+              // 更新用户信息
+              yield put({ type: 'changeUserInfo', payload: response });
+              // 更新授权状态
+              reloadAuthorized();
+              // 跳转页面
+              redirectToPage();
+            } else if (response.Message !== 'Mis 口令码无效') {
+              // 如果不是口令码失效, 则可以认为是会话失效
+              message.error(response.Message);
+              // 会话无效, 删除会话记录
+              localStorage.removeItem(GAEA_LOCAL_STORAGE_SESSION_KEY);
+              // 跳转到登陆页
+              redirectToLogin();
+            }
+            // 如果是口令码失效则不进行任何操作
           }
-          // 如果是口令码失效则不进行任何操作
+        } else {
+          // 不存在会话信息, 跳转到登陆页
+          redirectToLogin();
         }
-      } else {
-        // 不存在会话信息, 跳转到登陆页
+      } catch (e) {
+        console.log(e);
+        message.error(e.message);
+        // 出现错误, 跳转到登陆页
         redirectToLogin();
       }
     },
