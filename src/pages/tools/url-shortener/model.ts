@@ -28,13 +28,15 @@ export default <ModelType>{
           payload.IDBase62Encode.replace(/\s*/g, '')
             .split('#')[0]
             .split('?')[0]
-            .replace('https://offcn.ltd/', ''),
+            .replace('https://offcn.ltd/', '')
+            .replace('test/', ''),
         )}&`; // 短链接
       if (payload.CustomID)
         currentPayload.queryString += `custom-id=${payload.CustomID.replace(/\s*/g, '')
           .split('#')[0]
           .split('?')[0]
-          .replace('https://offcn.ltd/', '')}&`; // 自定义 ID
+          .replace('https://offcn.ltd/', '')
+          .replace('test/', '')}&`; // 自定义 ID
       if (payload.URL) currentPayload.queryString += `url=${payload.URL}&`; // 链接
       if (payload.CreatedUser) currentPayload.queryString += `created-user=${payload.CreatedUser}&`; // 创建用户 ( ID、工号、姓名 三个条件 三合一 )
       // 删除最后一个 & 字符

@@ -38,11 +38,15 @@ const Page: React.FC<Props> = (props) => {
     if (formInstance.getFieldValue('ID')) {
       if (formMode === 'edit') {
         setFormTitle(
-          `修改短链接 https://offcn.ltd/${base62Encode(formInstance.getFieldValue('ID'))} 的信息`,
+          `修改短链接 https://offcn.ltd/${REACT_APP_ENV ? 'test/' : ''}${base62Encode(
+            formInstance.getFieldValue('ID'),
+          )} 的信息`,
         );
       } else {
         setFormTitle(
-          `短链接 https://offcn.ltd/${base62Encode(formInstance.getFieldValue('ID'))} 的详情`,
+          `短链接 https://offcn.ltd/${REACT_APP_ENV ? 'test/' : ''}${base62Encode(
+            formInstance.getFieldValue('ID'),
+          )} 的详情`,
         );
       }
     } else if (formMode === 'edit') {
@@ -70,7 +74,8 @@ const Page: React.FC<Props> = (props) => {
       align: 'center',
       ellipsis: true,
       copyable: true,
-      renderText: (_, record) => `https://offcn.ltd/${base62Encode(record.ID)}`,
+      renderText: (_, record) =>
+        `https://offcn.ltd/${REACT_APP_ENV ? 'test/' : ''}${base62Encode(record.ID)}`,
     },
     {
       title: '自定义短链',
@@ -79,7 +84,10 @@ const Page: React.FC<Props> = (props) => {
       align: 'center',
       ellipsis: true,
       copyable: true,
-      renderText: (_, record) => (record.CustomID ? `https://offcn.ltd/${record.CustomID}` : ''),
+      renderText: (_, record) =>
+        record.CustomID
+          ? `https://offcn.ltd/${REACT_APP_ENV ? 'test/' : ''}${record.CustomID}`
+          : '',
     },
     {
       title: '跳转链接',
@@ -197,8 +205,13 @@ const Page: React.FC<Props> = (props) => {
             key="detail"
             onClick={() => {
               const currentRecord = { ...record }; // 是用 const 创建新对象时，会创建原有对象的只读引用，此时修改对象会出现修改原对象的问题，通过解构对象再进行赋值的操作解决这个问题
-              currentRecord.IDBase62Encode = `https://offcn.ltd/${base62Encode(record.ID)}`;
-              if (record.CustomID) currentRecord.CustomID = `https://offcn.ltd/${record.CustomID}`;
+              currentRecord.IDBase62Encode = `https://offcn.ltd/${
+                REACT_APP_ENV ? 'test/' : ''
+              }${base62Encode(record.ID)}`;
+              if (record.CustomID)
+                currentRecord.CustomID = `https://offcn.ltd/${REACT_APP_ENV ? 'test/' : ''}${
+                  record.CustomID
+                }`;
               formInstance.setFieldsValue(currentRecord);
               setFormMode('read');
               setFormVisible(true);
