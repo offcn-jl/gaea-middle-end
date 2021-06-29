@@ -70,12 +70,12 @@ const Page: React.FC<Props> = (props) => {
       },
     },
     {
-      title: '管理平台接口跨域白名单',
+      title: '服务接口跨域白名单',
       dataIndex: 'CORSRuleServices',
       ellipsis: true,
     },
     {
-      title: '服务接口跨域白名单',
+      title: '管理平台接口跨域白名单',
       dataIndex: 'CORSRuleManages',
       ellipsis: true,
     },
