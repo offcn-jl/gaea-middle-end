@@ -245,6 +245,11 @@ const Page: React.FC<Props> = (props) => {
               <Field valueType="text" mode={formMode} />
             </Form.Item>
           </Form.Item>
+          <Form.Item label={<b>OCC 平台</b>}>
+            <Form.Item name="OffcnOCCKey" label="签名密钥" rules={[{ required: true }]}>
+              <Field valueType="text" mode={formMode} />
+            </Form.Item>
+          </Form.Item>
         </Form.Item>
 
         <Form.Item label={<b>腾讯云相关配置</b>}>
