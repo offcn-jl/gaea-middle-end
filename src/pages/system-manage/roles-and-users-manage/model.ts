@@ -175,6 +175,16 @@ const Model: ModelType = {
           },
         ],
       },
+      {
+        title: '小程序',
+        key: '/mini-program',
+        children: [
+          {
+            title: '中公证件照',
+            key: '/mini-program/photo-processing',
+          },
+        ],
+      },
     ],
     myPermissionTree: [],
     role: {
