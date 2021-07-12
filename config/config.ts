@@ -166,6 +166,20 @@ export default defineConfig({
                 },
               ],
             },
+            {
+              path: '/mini-program',
+              name: '小程序',
+              icon: 'wechat',
+              authority: ['admin', '/mini-program/photo-processing'],
+              routes: [
+                {
+                  path: '/mini-program/photo-processing',
+                  name: '中公证件照',
+                  authority: ['admin', '/mini-program/photo-processing'],
+                  component: 'mini-program/photo-processing',
+                },
+              ],
+            },
           ],
         },
       ],
